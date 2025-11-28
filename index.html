@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduFlow - 교육 일정 및 접수 관리</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="badge">Education Scheduler</p>
+      <h1>교육 일정 관리와 신청을 한 번에</h1>
+      <p class="lead">교육을 등록하고, 참가 신청을 받고, 접수 현황을 실시간으로 확인하세요.</p>
+      <div class="hero__cta">
+        <button id="scrollCourses" class="btn primary">교육 보기</button>
+        <button id="scrollAdmin" class="btn ghost">관리자 모드</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="courses" class="section">
+      <div class="section__header">
+        <div>
+          <p class="badge">교육 목록</p>
+          <h2>모든 교육 한눈에 보기</h2>
+          <p class="muted">교육 제목, 일정, 정원을 확인하고 상세 정보를 살펴보세요.</p>
+        </div>
+        <div class="legend">
+          <span class="dot live"></span> 접수 중
+          <span class="dot full"></span> 마감
+        </div>
+      </div>
+      <div id="courseList" class="course-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="details" class="section detail-card">
+      <div class="section__header">
+        <div>
+          <p class="badge">교육 상세</p>
+          <h2 id="detailTitle">교육을 선택하세요</h2>
+          <p id="detailSchedule" class="muted">좌측 목록에서 교육을 선택하면 상세 정보와 신청 양식이 표시됩니다.</p>
+        </div>
+        <div class="pill" id="detailCapacity">정원: -</div>
+      </div>
+      <div class="detail-body">
+        <div>
+          <h3>교육 소개</h3>
+          <p id="detailDescription" class="muted">교육을 선택하면 설명이 표시됩니다.</p>
+          <div class="stat-bar">
+            <div>
+              <p class="label">현재 신청</p>
+              <p class="stat" id="detailApplicants">- 명</p>
+            </div>
+            <div>
+              <p class="label">남은 자리</p>
+              <p class="stat" id="detailRemaining">- 자리</p>
+            </div>
+          </div>
+        </div>
+        <div class="card form-card">
+          <div class="form-card__header">
+            <div>
+              <p class="badge">신청 양식</p>
+              <h3>바로 접수하기</h3>
+            </div>
+            <p class="muted">소속, 이름, 이메일, 전화번호를 입력해 주세요.</p>
+          </div>
+          <form id="applyForm" class="form-grid">
+            <input type="hidden" id="courseId" />
+            <label>
+              소속
+              <input type="text" id="org" required placeholder="회사/학교 등" />
+            </label>
+            <label>
+              이름
+              <input type="text" id="name" required placeholder="홍길동" />
+            </label>
+            <label>
+              이메일
+              <input type="email" id="email" required placeholder="you@example.com" />
+            </label>
+            <label>
+              전화번호
+              <input type="tel" id="phone" required placeholder="010-1234-5678" />
+            </label>
+            <button class="btn primary" type="submit">신청하기</button>
+            <p class="muted note">신청이 완료되면 실시간으로 접수 인원이 반영됩니다.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin" class="section admin">
+      <div class="section__header">
+        <div>
+          <p class="badge">관리자</p>
+          <h2>교육 등록 & 접수 현황</h2>
+          <p class="muted">새 교육을 등록하고 실시간 접수 현황을 확인하세요.</p>
+        </div>
+        <div class="pill glass" id="adminSummary">총 0개 교육, 0명 신청</div>
+      </div>
+      <div class="admin__grid">
+        <div class="card">
+          <div class="card__header">
+            <h3>새 교육 등록</h3>
+            <p class="muted">교육 제목, 일정, 정원, 상세 내용을 입력하세요.</p>
+          </div>
+          <form id="createCourse" class="form-grid">
+            <label>
+              교육 제목
+              <input type="text" id="newTitle" required placeholder="예: AI 트렌드 워크숍" />
+            </label>
+            <label>
+              교육 일정
+              <input type="text" id="newSchedule" required placeholder="2024-07-15 10:00" />
+            </label>
+            <label>
+              정원
+              <input type="number" id="newCapacity" min="1" required placeholder="30" />
+            </label>
+            <label class="full-width">
+              상세 내용
+              <textarea id="newDescription" rows="3" required placeholder="교육 목표, 커리큘럼 등"></textarea>
+            </label>
+            <button class="btn primary" type="submit">교육 등록</button>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card__header">
+            <h3>접수 현황</h3>
+            <p class="muted">교육별 신청 인원과 잔여 좌석을 확인하세요.</p>
+          </div>
+          <div id="adminList" class="admin-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>EduFlow · 교육 일정 및 접수 관리</p>
+    <p class="muted">디지털 감성의 파란색 & 보라색 톤으로 설계된 단일 페이지 서비스</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
